@@ -1,0 +1,351 @@
+Customer Behavior Analysis using SQL (SSMS)
+📌 Project Overview
+
+This project focuses on analyzing a customer dataset using SQL Server Management Studio (SSMS).
+The goal is to extract meaningful insights related to customer demographics, purchasing behavior, revenue, and marketing performance.
+
+📂 Dataset Information
+
+The dataset (customer table) contains information such as:
+
+CustomerID
+Gender
+Customer_Segment
+Annual_Income
+Quantity & Unit Price
+Revenue & Profit Margin
+Customer Satisfaction
+Purchase Frequency
+Purchase Quarter
+Marketing Channel
+Loyalty Score
+Days to Next Purchase
+Season
+
+
+
+🎯 Key Objectives
+Analyze gender distribution and percentages
+Identify top customers based on revenue
+Understand customer segments and income patterns
+Evaluate purchasing behavior
+Analyze sales trends (quarter-wise & season-wise)
+Measure customer satisfaction and loyalty
+Track marketing channel performance
+
+
+
+
+SELECT * FROM customer;
+
+--how many male and female customer we have 
+SELECT 
+Gender,Count(Gender) As male_per
+From customer 
+Group by Gender 
+Having Gender in ('Male','Female');
+
+
+-- what is the percentage of male 
+SELECT 
+(SELECT COUNT(Gender) FROM customer where Gender = 'Male')*100/
+COUNT(Gender) as Male_per From customer;
+
+
+-- what is the percentage of female
+SELECT 
+(SELECT COUNT(Gender) FROM customer where Gender = 'Female')*100/
+COUNT(Gender) as Female_per From customer;
+
+
+-- how many type of segment in data
+SELECT DISTINCT Customer_Segment FROM customer;
+
+-- count different customer segment 
+SELECT DISTINCT Customer_Segment, 
+COUNT(Customer_Segment) as count_segment FROM customer
+Group by Customer_Segment;
+
+
+-- total segment and income categories by gender
+SELECT
+Customer_Segment,
+COUNT(Customer_Segment) AS MALE_SEGMENT
+FROM 
+customer WHERE Gender IN ('Male')
+Group by Customer_Segment
+
+UNION
+
+SELECT
+Customer_Segment,
+COUNT(Customer_Segment) AS FEMALE_SEGMENT
+FROM 
+customer WHERE Gender IN ('Female')
+Group by Customer_Segment
+
+
+
+--
+SELECT 
+CustomerID,
+Quantity,
+Unit_Price,
+(Quantity*Unit_Price) as Price
+FROM customer;
+
+-- which payment method most use order by all category
+SELECT 
+Payment_Method,
+COUNT(Payment_Method) AS TOTAL
+FROM customer
+GROUP BY Payment_Method
+ORDER BY COUNT(Payment_Method) DESC;
+
+
+-- TOP 10 CUSTOMER ACCORDING TO HIGH REVENUE
+SELECT 
+TOP 10
+CustomerID,
+Revenue
+FROM customer
+ORDER BY Revenue DESC;
+
+
+-- TOP 10 CUSTOMER ACCORDING TO LOW REVENUE
+SELECT 
+TOP 10
+CustomerID,
+Revenue
+FROM customer
+ORDER BY Revenue;
+
+-- AVG REVENUE
+SELECT 
+AVG(Revenue) AS AVG_REVENUE
+FROM customer
+
+-- WHAT IS THE MAX MIN AVG PROFIT MARGIN
+SELECT
+MAX(Profit_Margin) AS MAX,
+MIN(Profit_Margin) AS MIN,
+AVG(Profit_Margin) AS AVG
+FROM customer;
+
+SELECT * FROM customer;
+
+-- TOTAL SUGMENT AND AVG INCOME 
+
+SELECT
+Customer_Segment,
+COUNT(Customer_Segment) AS MALE_SEGMENT,
+AVG(Annual_Income) As Income
+FROM 
+customer WHERE Gender IN ('Male')
+Group by Customer_Segment
+
+
+-- HOW MANY CUSTOMER GIVES <3 AND >3 SATISFACTION RATE
+SELECT 
+COUNT(Customer_Satisfaction) AS '>3RATING'
+from customer
+WHERE Customer_Satisfaction>3
+
+SELECT 
+COUNT(Customer_Satisfaction) AS '<3RATING'
+from customer
+WHERE Customer_Satisfaction<3
+
+-- HOW MANY CUSOTMER GIVES <3 RATING ACCORDING TO GENDER -- doubt
+
+SELECT 
+GENDER,
+COUNT(Customer_Satisfaction) AS '>3RATING'
+FROM customer
+WHERE Customer_Satisfaction>3
+GROUP BY GENDER;
+
+
+-- HOW MANY CUSOTMER GIVES <3 RATING ACCORDING TO GENDER -- doubt
+
+SELECT 
+GENDER,
+COUNT(Customer_Satisfaction) AS '<3RATING'
+FROM customer
+WHERE Customer_Satisfaction<3
+GROUP BY GENDER;
+
+-- WHAT IS THE AVG LOYALTY SCORE
+
+SELECT 
+AVG(Loyalty_Score)
+FROM customer
+
+
+-- HOW MANY CUSTOMERS PURCHACE FREQUENCY >5 OR <5
+SELECT 
+COUNT(Purchase_Frequency) AS '>5 FREQUENCY'
+FROM customer
+WHERE Purchase_Frequency>5;
+
+-- HOW MANY CUSTOMERS PURCHACE FREQUENCY <5
+SELECT 
+COUNT(Purchase_Frequency) AS '<5 FREQUENCY'
+FROM customer
+WHERE Purchase_Frequency<5;
+
+--IN WHICH QUATER WISE SALES
+SELECT 
+Purchase_Quarter,
+COUNT(Purchase_Quarter) AS Quarter
+FROM customer
+GROUP BY Purchase_Quarter
+ORDER BY Purchase_Quarter;
+
+
+-- IN WHICH QUARTER WE SALE TO MORE PRODUCT QUANTITY
+SELECT
+Purchase_Quarter,
+SUM(Quantity) AS SUM_QUANTITY
+FROM customer
+GROUP BY Purchase_Quarter
+ORDER BY Purchase_Quarter;
+
+-- WHICH QUARTER WE SALE MORE PRODUCT QUANTITY
+SELECT
+TOP 1
+Purchase_Quarter,
+SUM(Quantity) AS SUM_QUANTITY
+FROM customer
+GROUP BY Purchase_Quarter
+ORDER BY SUM(Quantity) DESC;
+
+
+-- WHICH QUARTER WE SALE LOW PRODUCT QUANTITY
+SELECT
+TOP 1
+Purchase_Quarter,
+SUM(Quantity) AS SUM_QUANTITY
+FROM customer
+GROUP BY Purchase_Quarter
+ORDER BY SUM(Quantity);
+
+-- QUARTER WISE PROFIT MARGIN,REVENUE
+SELECT
+Purchase_Quarter,
+SUM(Revenue) AS TOTAL_REVENUE,
+SUM(Profit_Margin) AS TOTAL_PROFIT
+FROM customer
+GROUP BY Purchase_Quarter
+ORDER BY Purchase_Quarter;
+
+-- HOW MANY ORDER IN WEEKEND AND NON WEEKEND
+SELECT 
+Is_Weekend,
+COUNT(Is_Weekend) AS Weekend
+FROM customer
+GROUP BY Is_Weekend;
+
+
+-- CUSTOMER PURCHASE DAYS TO NEXT PURCHASE
+--<10
+SELECT
+CustomerID,
+Days_to_Next_Purchase
+FROM customer
+WHERE Days_to_Next_Purchase<10;
+
+--BETWEEN 10 TO 20
+SELECT
+CustomerID,
+Days_to_Next_Purchase
+FROM customer
+WHERE Days_to_Next_Purchase BETWEEN 10 AND 20;
+
+-->20
+SELECT
+CustomerID,
+Days_to_Next_Purchase
+FROM customer
+WHERE Days_to_Next_Purchase >20;
+
+
+--WHICH SEASON WE MOST SALES
+SELECT 
+Season,
+COUNT(Season) as season_orders
+FROM customer
+GROUP BY Season;
+
+
+-- HOW MANY CUSTOMER JOIN US THROUGH MARKETING CHANNEL 
+SELECT 
+Marketing_Channel,
+COUNT(Marketing_Channel) AS CUSTOMER
+FROM customer
+GROUP BY (Marketing_Channel)
+ORDER BY COUNT(Marketing_Channel) DESC;
+
+SELECT
+DISTINCT Gender
+FROM customer;
+
+-- UPDATE GENDER
+
+UPDATE customer
+SET Gender= 'Others' WHERE Gender = 'OTHER';
+
+-- SHOW DUPLICATE ROWS IN DATASET
+SELECT
+CustomerID,
+COUNT(*) AS COUNTA
+FROM customer
+GROUP BY CustomerID
+having COUNT(*)>1;
+
+
+SELECT 
+    (SUM(CASE WHEN Gender = 'Male' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS Male_Percentage,
+    (SUM(CASE WHEN Gender = 'Female' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS Female_Percentage
+FROM customer;
+
+
+
+
+
+
+SELECT
+    (SUM(CASE WHEN Gender = 'Female' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS Female_Percentage
+FROM customer;
+
+
+--ratio to comaprison
+SELECT 
+    COUNT(CASE WHEN Gender = 'Male' THEN 1 END)/COUNT(CASE WHEN Gender = 'Female' THEN 1 END)
+FROM customer;
+
+
+
+SELECT 
+    CONCAT(
+        COUNT(CASE WHEN Gender = 'Male' THEN 1 END)*0.1/100,
+        COUNT(CASE WHEN Gender = 'Female' THEN 1 END)
+    ) AS Male_Female_Ratio
+FROM customer;
+
+-- doubt
+SELECT 
+COUNT(SELECT Gender from customer where Gender='Male')
+from customer;
+
+
+select * from customer;
+
+select count(case when gender='male' then 1 end )/count(*) as male  from customer
+
+select Marketing_Channel,
+       First_Purchase_Channel,
+       count(First_Purchase_Channel)
+       from customer
+       Group By Marketing_Channel, First_Purchase_Channel
+       Order BY Marketing_Channel
