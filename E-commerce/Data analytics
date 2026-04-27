@@ -1,351 +1,123 @@
-Customer Behavior Analysis using SQL (SSMS)
-📌 Project Overview
+E-Commerce Customer Analysis
 
-This project focuses on analyzing a customer dataset using SQL Server Management Studio (SSMS).
-The goal is to extract meaningful insights related to customer demographics, purchasing behavior, revenue, and marketing performance.
+This README documents the SQL queries and insights derived from the customer dataset. The dataset contains information about customer demographics, purchase behavior, revenue, profit margins, satisfaction, loyalty, and marketing channels.
 
-📂 Dataset Information
+Dataset Overview
 
-The dataset (customer table) contains information such as:
+Attributes: Gender, Customer Segment, Annual Income, CustomerID, Quantity, Unit Price, Revenue, Profit Margin, Customer Satisfaction, Loyalty Score, Purchase Frequency, Purchase Quarter, Is_Weekend, Days to Next Purchase, Season, Marketing Channel, First Purchase Channel.
 
-CustomerID
-Gender
-Customer_Segment
-Annual_Income
-Quantity & Unit Price
-Revenue & Profit Margin
+Size: 47,926 customers (23,888 Male, 24,038 Female).
+
+Key Analyses
+
+Gender Distribution
+
+Male Customers: 23,888
+
+Female Customers: 24,038
+
+Percentages: ~49.8% Male, ~50.2% Female
+
+Customer Segments
+
+Distinct segments identified.
+
+Segment counts by gender and average annual income.
+
+Revenue & Profit
+
+Top 10 Customers by Revenue: Highest spenders identified.
+
+Bottom 10 Customers by Revenue: Lowest spenders identified.
+
+Average Revenue: Calculated across all customers.
+
+Profit Margin: Max, Min, and Avg values computed.
+
+Payment Methods
+
+Most frequently used payment methods ranked.
+
 Customer Satisfaction
-Purchase Frequency
-Purchase Quarter
-Marketing Channel
+
+Customers with satisfaction >3 and <3 counted.
+
+Satisfaction distribution analyzed by gender.
+
 Loyalty Score
+
+Average loyalty score calculated.
+
+Purchase Frequency
+
+Customers with frequency >5 and <5 counted.
+
+Quarterly Sales
+
+Sales volume and product quantity analyzed per quarter.
+
+Highest and lowest product quantity quarters identified.
+
+Quarterly revenue and profit margins summarized.
+
+Weekend vs Non-Weekend Orders
+
+Orders split by weekend vs non-weekend.
+
 Days to Next Purchase
-Season
 
+Customers grouped by <10 days, 10–20 days, and >20 days.
 
+Seasonal Sales
 
-🎯 Key Objectives
-Analyze gender distribution and percentages
-Identify top customers based on revenue
-Understand customer segments and income patterns
-Evaluate purchasing behavior
-Analyze sales trends (quarter-wise & season-wise)
-Measure customer satisfaction and loyalty
-Track marketing channel performance
+Orders grouped by season to identify peak sales periods.
 
+Marketing Channels
 
+Customers grouped by marketing channel.
 
+Comparison of marketing channel vs first purchase channel.
 
-SELECT * FROM customer;
+Data Quality
 
---how many male and female customer we have 
-SELECT 
-Gender,Count(Gender) As male_per
-From customer 
-Group by Gender 
-Having Gender in ('Male','Female');
+Duplicate rows identified by CustomerID.
 
+Gender values standardized (e.g., 'OTHER' updated to 'Others').
 
--- what is the percentage of male 
-SELECT 
-(SELECT COUNT(Gender) FROM customer where Gender = 'Male')*100/
-COUNT(Gender) as Male_per From customer;
+Insights
 
+Balanced Gender Distribution: Nearly equal male and female customers.
 
--- what is the percentage of female
-SELECT 
-(SELECT COUNT(Gender) FROM customer where Gender = 'Female')*100/
-COUNT(Gender) as Female_per From customer;
+Segment Analysis: Different segments show varying income levels and gender distribution.
 
+Revenue Concentration: A small group of customers contributes disproportionately to revenue.
 
--- how many type of segment in data
-SELECT DISTINCT Customer_Segment FROM customer;
+Profit Margins: Wide variation across customers, with clear max/min ranges.
 
--- count different customer segment 
-SELECT DISTINCT Customer_Segment, 
-COUNT(Customer_Segment) as count_segment FROM customer
-Group by Customer_Segment;
+Payment Preferences: Certain payment methods dominate usage.
 
+Customer Satisfaction: Majority rate >3, but gender differences exist.
 
--- total segment and income categories by gender
-SELECT
-Customer_Segment,
-COUNT(Customer_Segment) AS MALE_SEGMENT
-FROM 
-customer WHERE Gender IN ('Male')
-Group by Customer_Segment
+Loyalty & Frequency: Loyalty scores and purchase frequency highlight retention opportunities.
 
-UNION
+Seasonal & Quarterly Trends: Clear peaks in certain quarters and seasons.
 
-SELECT
-Customer_Segment,
-COUNT(Customer_Segment) AS FEMALE_SEGMENT
-FROM 
-customer WHERE Gender IN ('Female')
-Group by Customer_Segment
+Marketing Channels: Some channels drive significantly more customers.
 
+Data Quality: Duplicate entries and inconsistent gender values corrected.
 
+Usage
 
---
-SELECT 
-CustomerID,
-Quantity,
-Unit_Price,
-(Quantity*Unit_Price) as Price
-FROM customer;
+Run queries in SQL Server using the customer table.
 
--- which payment method most use order by all category
-SELECT 
-Payment_Method,
-COUNT(Payment_Method) AS TOTAL
-FROM customer
-GROUP BY Payment_Method
-ORDER BY COUNT(Payment_Method) DESC;
+Use results to generate dashboards and visualizations.
 
+Insights can guide marketing, product, and customer retention strategies.
 
--- TOP 10 CUSTOMER ACCORDING TO HIGH REVENUE
-SELECT 
-TOP 10
-CustomerID,
-Revenue
-FROM customer
-ORDER BY Revenue DESC;
+Next Steps
 
+Add visualizations (bar charts, line graphs) for gender distribution, revenue trends, seasonal sales.
 
--- TOP 10 CUSTOMER ACCORDING TO LOW REVENUE
-SELECT 
-TOP 10
-CustomerID,
-Revenue
-FROM customer
-ORDER BY Revenue;
-
--- AVG REVENUE
-SELECT 
-AVG(Revenue) AS AVG_REVENUE
-FROM customer
-
--- WHAT IS THE MAX MIN AVG PROFIT MARGIN
-SELECT
-MAX(Profit_Margin) AS MAX,
-MIN(Profit_Margin) AS MIN,
-AVG(Profit_Margin) AS AVG
-FROM customer;
-
-SELECT * FROM customer;
-
--- TOTAL SUGMENT AND AVG INCOME 
-
-SELECT
-Customer_Segment,
-COUNT(Customer_Segment) AS MALE_SEGMENT,
-AVG(Annual_Income) As Income
-FROM 
-customer WHERE Gender IN ('Male')
-Group by Customer_Segment
-
-
--- HOW MANY CUSTOMER GIVES <3 AND >3 SATISFACTION RATE
-SELECT 
-COUNT(Customer_Satisfaction) AS '>3RATING'
-from customer
-WHERE Customer_Satisfaction>3
-
-SELECT 
-COUNT(Customer_Satisfaction) AS '<3RATING'
-from customer
-WHERE Customer_Satisfaction<3
-
--- HOW MANY CUSOTMER GIVES <3 RATING ACCORDING TO GENDER -- doubt
-
-SELECT 
-GENDER,
-COUNT(Customer_Satisfaction) AS '>3RATING'
-FROM customer
-WHERE Customer_Satisfaction>3
-GROUP BY GENDER;
-
-
--- HOW MANY CUSOTMER GIVES <3 RATING ACCORDING TO GENDER -- doubt
-
-SELECT 
-GENDER,
-COUNT(Customer_Satisfaction) AS '<3RATING'
-FROM customer
-WHERE Customer_Satisfaction<3
-GROUP BY GENDER;
-
--- WHAT IS THE AVG LOYALTY SCORE
-
-SELECT 
-AVG(Loyalty_Score)
-FROM customer
-
-
--- HOW MANY CUSTOMERS PURCHACE FREQUENCY >5 OR <5
-SELECT 
-COUNT(Purchase_Frequency) AS '>5 FREQUENCY'
-FROM customer
-WHERE Purchase_Frequency>5;
-
--- HOW MANY CUSTOMERS PURCHACE FREQUENCY <5
-SELECT 
-COUNT(Purchase_Frequency) AS '<5 FREQUENCY'
-FROM customer
-WHERE Purchase_Frequency<5;
-
---IN WHICH QUATER WISE SALES
-SELECT 
-Purchase_Quarter,
-COUNT(Purchase_Quarter) AS Quarter
-FROM customer
-GROUP BY Purchase_Quarter
-ORDER BY Purchase_Quarter;
-
-
--- IN WHICH QUARTER WE SALE TO MORE PRODUCT QUANTITY
-SELECT
-Purchase_Quarter,
-SUM(Quantity) AS SUM_QUANTITY
-FROM customer
-GROUP BY Purchase_Quarter
-ORDER BY Purchase_Quarter;
-
--- WHICH QUARTER WE SALE MORE PRODUCT QUANTITY
-SELECT
-TOP 1
-Purchase_Quarter,
-SUM(Quantity) AS SUM_QUANTITY
-FROM customer
-GROUP BY Purchase_Quarter
-ORDER BY SUM(Quantity) DESC;
-
-
--- WHICH QUARTER WE SALE LOW PRODUCT QUANTITY
-SELECT
-TOP 1
-Purchase_Quarter,
-SUM(Quantity) AS SUM_QUANTITY
-FROM customer
-GROUP BY Purchase_Quarter
-ORDER BY SUM(Quantity);
-
--- QUARTER WISE PROFIT MARGIN,REVENUE
-SELECT
-Purchase_Quarter,
-SUM(Revenue) AS TOTAL_REVENUE,
-SUM(Profit_Margin) AS TOTAL_PROFIT
-FROM customer
-GROUP BY Purchase_Quarter
-ORDER BY Purchase_Quarter;
-
--- HOW MANY ORDER IN WEEKEND AND NON WEEKEND
-SELECT 
-Is_Weekend,
-COUNT(Is_Weekend) AS Weekend
-FROM customer
-GROUP BY Is_Weekend;
-
-
--- CUSTOMER PURCHASE DAYS TO NEXT PURCHASE
---<10
-SELECT
-CustomerID,
-Days_to_Next_Purchase
-FROM customer
-WHERE Days_to_Next_Purchase<10;
-
---BETWEEN 10 TO 20
-SELECT
-CustomerID,
-Days_to_Next_Purchase
-FROM customer
-WHERE Days_to_Next_Purchase BETWEEN 10 AND 20;
-
--->20
-SELECT
-CustomerID,
-Days_to_Next_Purchase
-FROM customer
-WHERE Days_to_Next_Purchase >20;
-
-
---WHICH SEASON WE MOST SALES
-SELECT 
-Season,
-COUNT(Season) as season_orders
-FROM customer
-GROUP BY Season;
-
-
--- HOW MANY CUSTOMER JOIN US THROUGH MARKETING CHANNEL 
-SELECT 
-Marketing_Channel,
-COUNT(Marketing_Channel) AS CUSTOMER
-FROM customer
-GROUP BY (Marketing_Channel)
-ORDER BY COUNT(Marketing_Channel) DESC;
-
-SELECT
-DISTINCT Gender
-FROM customer;
-
--- UPDATE GENDER
-
-UPDATE customer
-SET Gender= 'Others' WHERE Gender = 'OTHER';
-
--- SHOW DUPLICATE ROWS IN DATASET
-SELECT
-CustomerID,
-COUNT(*) AS COUNTA
-FROM customer
-GROUP BY CustomerID
-having COUNT(*)>1;
-
-
-SELECT 
-    (SUM(CASE WHEN Gender = 'Male' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS Male_Percentage,
-    (SUM(CASE WHEN Gender = 'Female' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS Female_Percentage
-FROM customer;
-
-
-
-
-
-
-SELECT
-    (SUM(CASE WHEN Gender = 'Female' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS Female_Percentage
-FROM customer;
-
-
---ratio to comaprison
-SELECT 
-    COUNT(CASE WHEN Gender = 'Male' THEN 1 END)/COUNT(CASE WHEN Gender = 'Female' THEN 1 END)
-FROM customer;
-
-
-
-SELECT 
-    CONCAT(
-        COUNT(CASE WHEN Gender = 'Male' THEN 1 END)*0.1/100,
-        COUNT(CASE WHEN Gender = 'Female' THEN 1 END)
-    ) AS Male_Female_Ratio
-FROM customer;
-
--- doubt
-SELECT 
-COUNT(SELECT Gender from customer where Gender='Male')
-from customer;
-
-
-select * from customer;
-
-select count(case when gender='male' then 1 end )/count(*) as male  from customer
-
-select Marketing_Channel,
-       First_Purchase_Channel,
-       count(First_Purchase_Channel)
-       from customer
-       Group By Marketing_Channel, First_Purchase_Channel
-       Order BY Marketing_Channel
+Extend analysis to include geographic segmentation and product-level insights.
+
+Automate pipeline for regular reporting and GitHub documentation updates.
