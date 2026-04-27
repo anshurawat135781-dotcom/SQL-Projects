@@ -1,1 +1,129 @@
+# 🚀 SQL Health Insurance Data Analysis Project
+
+## 📌 Overview
+
+This project demonstrates how to analyze a real-world **health insurance dataset** using SQL Server. It covers the full workflow from **data cleaning → transformation → analysis → business insights**.
+
+The goal is to showcase practical SQL skills used by data analysts in real scenarios.
+
+---
+
+## 🎯 Objectives
+
+* Clean and prepare raw data for analysis
+* Perform exploratory data analysis (EDA) using SQL
+* Generate meaningful business insights
+* Practice real-world SQL queries and logic
+
+---
+
+## 🛠 Tools & Technologies
+
+* SQL Server (SSMS)
+* T-SQL
+* CSV Dataset (Insurance Data)
+
+---
+
+## 📂 Dataset Information
+
+The dataset contains the following columns:
+
+* `age` → Customer age
+* `sex` → Gender (male/female)
+* `bmi` → Body Mass Index
+* `children` → Number of dependents
+* `smoker` → Smoking status (YES/NO)
+* `region` → Residential area
+* `charges` → Medical insurance cost
+
+---
+
+## 🧹 Data Cleaning Steps
+
+* Checked for NULL values across all columns
+* Removed extra spaces using `TRIM`, `LTRIM`, `RTRIM`
+* Standardized text values (e.g., smoker → uppercase)
+
+---
+
+## 📊 Key Analysis Performed
+
+### 👥 Customer Distribution
+
+* Total male vs female customers
+* Gender percentage distribution
+* Age group segmentation (18–30, 30–40, 40–60, 60+)
+
+### 🚬 Smoking Analysis
+
+* Total smokers vs non-smokers
+* Smoking distribution by gender
+* Smoking trends by age
+
+### 🌍 Regional Insights
+
+* Customer count per region
+* Average and total charges by region
+
+### 👨‍👩‍👧 Family Insights
+
+* Customers with children
+* Average number of children
+
+### 💰 Financial Insights
+
+* Average, minimum, and maximum insurance charges
+* Average charges by gender
+* Impact of BMI and smoking on charges
+
+---
+
+## 📈 Sample Insights
+
+* Smokers tend to have significantly higher insurance charges
+* Certain regions show higher average medical costs
+* Age and BMI strongly influence insurance expenses
+
+---
+
+## ⚙️ Example Queries
+
+```sql
+-- Percentage of male and female
+SELECT
+ROUND(COUNT(CASE WHEN sex = 'male' THEN 1 END)*100.0/COUNT(sex),2) AS TOTAL_MALE,
+ROUND(COUNT(CASE WHEN sex = 'female' THEN 1 END)*100.0/COUNT(sex),2) AS TOTAL_FEMALE
+FROM INSURANCE;
+```
+
+```sql
+-- Average charges by region
+SELECT
+region,
+AVG(charges) AS AVG_CHARGES
+FROM INSURANCE
+GROUP BY region;
+```
+
+---
+
+## 🔄 Future Improvements
+
+* Add data visualization (Power BI / Tableau)
+* Build automated SQL pipelines using SQL Server Agent
+* Create dashboards for business reporting
+
+---
+
+## 💡 Conclusion
+
+This project highlights how SQL can be used not just for querying data, but for **deriving actionable insights** that support business decisions.
+
+---
+
+## 📎 Author
+
+**Anshu Rawat**
+Aspiring Data Analyst | SQL Enthusiast
 
