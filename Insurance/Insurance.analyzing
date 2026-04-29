@@ -2,7 +2,8 @@
 
 ## 📌 Overview
 
-This project demonstrates how to analyze a real-world **health insurance dataset** using SQL Server. It covers the full workflow from **data cleaning → transformation → analysis → business insights**.
+This project demonstrates how to analyze a real-world **health insurance dataset** using SQL Server.
+It covers the full workflow from **data cleaning → transformation → analysis → business insights**.
 
 The goal is to showcase practical SQL skills used by data analysts in real scenarios.
 
@@ -15,15 +16,7 @@ The goal is to showcase practical SQL skills used by data analysts in real scena
 * Generate meaningful business insights
 * Practice real-world SQL queries and logic
 
----
 
-## 🛠 Tools & Technologies
-
-* SQL Server (SSMS)
-* T-SQL
-* CSV Dataset (Insurance Data)
-
----
 
 ## 📂 Dataset Information
 
