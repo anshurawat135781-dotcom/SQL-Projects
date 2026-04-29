@@ -34,6 +34,7 @@ Dataset Size:
 👥 Gender Distribution
 Nearly equal split between male and female customers
 Provides a balanced base for segmentation analysis
+
 🧩 Customer Segmentation
 Identified distinct customer segments
 Analyzed:
@@ -48,6 +49,7 @@ Average annual income
 Maximum
 Minimum
 Average
+
 💳 Payment Behavior
 Ranked most frequently used payment methods
 Identified dominant transaction preferences
@@ -84,6 +86,7 @@ Customers segmented into:
 🌦️ Seasonal Sales Trends
 Orders grouped by season
 Identified peak sales periods
+
 📣 Marketing Channel Analysis
 Customer distribution by marketing channel
 Compared:
@@ -105,12 +108,14 @@ Example: 'OTHER' → 'Others'
 📅 Seasonal & Quarterly Peaks observed
 📣 Marketing Channels Impact differs significantly
 🧹 Improved Data Quality after cleaning
+
 🚀 Usage
 Run SQL queries in SQL Server (SSMS)
 Use the customer table for analysis
 Export results for:
 Dashboards
 Reports
+
 Business insights
 📈 Future Enhancements
 📊 Add visualizations:
