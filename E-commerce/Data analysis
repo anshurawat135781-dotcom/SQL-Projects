@@ -261,7 +261,7 @@ COUNT(Customer_Satisfaction) AS '<3RATING'
 from customer
 WHERE Customer_Satisfaction<3
 
--- HOW MANY CUSOTMER GIVES <3 RATING ACCORDING TO GENDER -- doubt
+-- HOW MANY CUSOTMER GIVES <3 RATING ACCORDING TO GENDER 
 
 SELECT 
 GENDER,
@@ -271,7 +271,7 @@ WHERE Customer_Satisfaction>3
 GROUP BY GENDER;
 
 
--- HOW MANY CUSOTMER GIVES <3 RATING ACCORDING TO GENDER -- doubt
+-- HOW MANY CUSOTMER GIVES <3 RATING ACCORDING TO GENDER
 
 SELECT 
 GENDER,
@@ -416,15 +416,4 @@ FROM customer;
 
 
 
-
-select * from customer;
-
-
-
-select Marketing_Channel,
-       First_Purchase_Channel,
-       count(First_Purchase_Channel)
-       from customer
-       Group By Marketing_Channel, First_Purchase_Channel
-       Order BY Marketing_Channel
 
