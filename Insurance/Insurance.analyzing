@@ -353,3 +353,14 @@ WHERE sex = 'male'
 GROUP BY sex,age
 ORDER BY COUNT(sex) DESC;
 
+
+-- CALUCATE PERCENTAGE OF CHARGES BY REGION
+
+SELECT
+	region,
+	ROUND(SUM(charges),2) Sum_charges,
+	(ROUND(SUM(charges)*100.0/ SUM(SUM(charges)) OVER(),2)) Percentage
+FROM INSURANCE
+GROUP BY region
+ORDER BY SUM(charges)*100.0/ SUM(SUM(charges)) OVER() DESC;
+
