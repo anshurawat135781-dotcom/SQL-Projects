@@ -1,1 +1,163 @@
+--total number of male and female
+SELECT 
+Gender,Count(Gender) As Total
+From customer 
+Group by Gender 
+Having Gender in ('Male','Female');
+
+-- Insights
+
+Gender	| Total
+Male	  | 23888
+Female	| 24038
+
+
+-- what is the percentage of male and female customer
+SELECT 
+    ROUND(SUM(CASE WHEN Gender = 'Male' THEN 1 ELSE 0 END ) * 100.0 / COUNT(*),2) AS Male_Percentage,
+    ROUND(SUM(CASE WHEN Gender = 'Female' THEN 1 ELSE 0 END) * 100.0 / COUNT(*),2) AS Female_Percentage
+FROM customer;
+
+-- Insights
+
+Male_Percentage	  | Female_Percentage
+47.780000000000	  | 48.080000000000
+
+
+-- total number of different customer segment 
+
+SELECT DISTINCT Customer_Segment, 
+COUNT(Customer_Segment) as count_segment FROM customer
+Group by Customer_Segment;
+
+-- Insights
+
+Customer_Segment	| count_segment
+New	              | 14859
+VIP	              | 9966
+Regular	          | 25175
+
+
+-- total number of payment method
+
+SELECT 
+Payment_Method,
+COUNT(Payment_Method) AS TOTAL
+FROM customer
+GROUP BY Payment_Method
+ORDER BY COUNT(Payment_Method) DESC;
+
+-- Insights
+
+Payment_Method	| TOTAL
+Credit Card	    | 20039
+PayPal	        | 14896
+Bank Transfer	  | 10115
+Digital Wallet	| 4950
+
+-- TOP 10 CUSTOMER ACCORDING TO HIGH REVENUE
+SELECT 
+TOP 10
+CustomerID,
+Revenue
+FROM customer
+ORDER BY Revenue DESC;
+
+-- Insights
+
+CustomerID	Revenue
+C00101	10000
+C00105	10000
+C00118	10000
+C00294	10000
+C00744	10000
+C00784	10000
+C00826	10000
+C01112	10000
+C01259	10000
+C01406	10000
+
+-- WHAT IS THE MAX MIN AVG PROFIT MARGIN
+
+SELECT
+ROUND(MAX(Profit_Margin),2) AS MAX_PROFIT,
+ROUND(MIN(Profit_Margin),2) AS MIN_PROFIT,
+ROUND(AVG(Profit_Margin),2) AS AVG_PROFIT
+FROM customer;
+
+-- Insights
+
+MAX_PROFIT	| MIN_PROFIT	| AVG_PROFIT
+0.97	      | 0          	| 0.4
+
+
+--QUATER WISE SALES
+SELECT 
+Purchase_Quarter,
+COUNT(Purchase_Quarter) AS Quarter
+FROM customer
+GROUP BY Purchase_Quarter
+ORDER BY Purchase_Quarter;
+
+-- Insights
+
+Purchase_Quarter |  Quarter
+1                |	12475
+2	               |  12393
+3	               |  12555
+4	               |  12577
+
+-- IN WHICH QUARTER WE SALE MORE PRODUCT QUANTITY
+
+SELECT
+Purchase_Quarter,
+SUM(Quantity) AS SUM_QUANTITY
+FROM customer
+GROUP BY Purchase_Quarter
+ORDER BY SUM(Quantity) DESC
+
+-- Insights
+
+Purchase_Quarter	| SUM_QUANTITY
+4	                | 26741
+1	                | 26629
+3	                | 26556
+2	                | 26329
+
+-- QUARTER WISE PROFIT MARGIN AND REVENUE
+
+SELECT
+Purchase_Quarter,
+SUM(Revenue) AS TOTAL_REVENUE,
+SUM(Profit_Margin) AS TOTAL_PROFIT
+FROM customer
+GROUP BY Purchase_Quarter
+ORDER BY Purchase_Quarter;
+
+-- Insights
+
+Purchase_Quarter	TOTAL_REVENUE	    TOTAL_PROFIT
+1	                18992910	        4976.55500099366
+2	                19211621	        4975.90600161697
+3	                19322981	        5033.58300118195
+4	                19807256	        5035.83699964336
+
+
+-- TOTAL NUMBER OF SEASON SALES
+SELECT 
+Season,
+COUNT(Season) as season_orders
+FROM customer
+GROUP BY Season;
+
+
+-- Insights
+
+Season	  season_orders
+Summer	  12272
+Fall	    12605
+Spring	  12540
+Winter	  12583
+
+
 
