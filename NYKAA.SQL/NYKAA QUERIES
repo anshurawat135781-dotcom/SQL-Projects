@@ -1,0 +1,291 @@
+CREATE DATABASE NYKAA
+
+USE NYKAA
+
+SELECT * FROM NYKAA_DATASET
+
+BEGIN TRANSACTION;
+
+-- DATA CLEANING
+
+SELECT
+	COUNT(CASE WHEN Campaign_ID IS NULL THEN 1 END) AS Campaign_id,
+	COUNT(CASE WHEN Campaign_Type IS NULL THEN 1 END) AS Campaign_Type,
+	COUNT(CASE WHEN Target_Audience IS NULL THEN 1 END) AS Target_Audience,
+	COUNT(CASE WHEN Duration IS NULL THEN 1 END) AS Duration,
+	COUNT(CASE WHEN Channel_Used IS NULL THEN 1 END) AS Channel_Used,
+	COUNT(CASE WHEN Impressions IS NULL THEN 1 END) AS Impressions,
+	COUNT(CASE WHEN Clicks IS NULL THEN 1 END) AS Clicks,
+	COUNT(CASE WHEN Leads IS NULL THEN 1 END) AS Leads,
+	COUNT(CASE WHEN Conversions IS NULL THEN 1 END) AS Conversions,
+	COUNT(CASE WHEN Revenue IS NULL THEN 1 END) AS Revenue,
+	COUNT(CASE WHEN Acquisition_Cost IS NULL THEN 1 END) AS Acquisition_Cost,
+	COUNT(CASE WHEN ROI IS NULL THEN 1 END) AS ROI,
+	COUNT(CASE WHEN Language IS NULL THEN 1 END) AS Language,
+	COUNT(CASE WHEN Engagement_Score IS NULL THEN 1 END) AS Engagement_Score,
+	COUNT(CASE WHEN Customer_Segment IS NULL THEN 1 END) AS Customer_Segment,
+	COUNT(CASE WHEN Date IS NULL THEN 1 END) AS Date
+FROM NYKAA_DATASET;
+
+-- DUPLICATES CAMPAIGN_ID 
+
+SELECT
+	Campaign_ID,
+	COUNT(DISTINCT Campaign_ID) Total
+FROM NYKAA_DATASET
+GROUP BY Campaign_ID
+HAVING COUNT(DISTINCT Campaign_ID)>1
+
+
+-- CONVERTING REVENUE INT TO BIG INT
+ALTER TABLE NYKAA_DATASET
+ALTER COLUMN Revenue BIGINT;
+
+
+
+-- UPDATE AVERAGE IN ACQUISITION COST
+SELECT
+AVG(Acquisition_Cost) AS AVGERAGE
+FROM NYKAA_DATASET
+
+UPDATE 
+NYKAA_DATASET 
+SET Acquisition_Cost ='377.162172558341' 
+WHERE Acquisition_Cost IS NULL;
+
+
+-- EXTRA SPACES BETWEEN VALUES
+
+SELECT
+	LEN(Campaign_ID),
+	LEN(Campaign_ID) - LEN(TRIM(Campaign_ID))
+FROM NYKAA_DATASET
+WHERE LEN(Campaign_ID) - LEN(TRIM(Campaign_ID))>0
+
+
+SELECT
+	LEN(Campaign_Type),
+	LEN(Campaign_Type) - LEN(TRIM(Campaign_Type))
+FROM NYKAA_DATASET
+WHERE LEN(Campaign_Type) - LEN(TRIM(Campaign_Type))>0
+
+
+SELECT
+	LEN(Target_Audience),
+	LEN(Target_Audience) - LEN(TRIM(Target_Audience))
+FROM NYKAA_DATASET
+WHERE LEN(Target_Audience) - LEN(TRIM(Target_Audience))>0
+
+
+SELECT
+	LEN(Channel_Used),
+	LEN(Channel_Used) - LEN(TRIM(Channel_Used))
+FROM NYKAA_DATASET
+WHERE LEN(Channel_Used) - LEN(TRIM(Channel_Used))>0
+
+
+SELECT
+	LEN(Language),
+	LEN(Language)-LEN(TRIM(Language))
+FROM NYKAA_DATASET
+WHERE LEN(Language)-LEN(TRIM(Language))>0
+
+
+SELECT
+	LEN(Customer_Segment),
+	LEN(Customer_Segment)-LEN(TRIM(Customer_Segment))
+FROM NYKAA_DATASET
+WHERE LEN(Customer_Segment)-LEN(TRIM(Customer_Segment))>0
+
+
+-- INSIGHTS
+-- TOTAL NUMBER OF CAMPAIGN TYPE
+
+SELECT
+	Campaign_Type,
+	COUNT(Campaign_Type) Total
+FROM NYKAA_DATASET
+GROUP BY Campaign_Type
+
+
+-- TOTAL NUMBER OF TARGET AUDIENCE
+
+SELECT
+	Target_Audience,
+	COUNT(Target_Audience) Total_Audience
+FROM NYKAA_DATASET
+GROUP BY Target_Audience;
+
+-- AVERAGE REVENUE
+
+SELECT
+	AVG(Revenue) Avg_Revenue
+FROM NYKAA_DATASET;
+
+
+-- AVERAGE DURATION 
+
+SELECT
+	AVG(Duration) AVG_DURATION
+FROM NYKAA_DATASET;
+
+-- MAXIMUM DURATION
+
+SELECT
+	MAX(Duration) MAX_DURATION
+FROM NYKAA_DATASET
+
+
+-- MININUM DURATION
+
+SELECT
+	MIN(Duration) MIN_DURATION
+FROM NYKAA_DATASET
+
+
+-- TOTAL NUMBER OF LANGUAGE
+
+SELECT
+	Language,
+	COUNT(Language) Total_Language
+FROM NYKAA_DATASET
+GROUP BY Language;
+
+
+-- TOTAL NUMBER OF CUSTOMER SEGMENT
+
+SELECT
+	Customer_Segment,
+	COUNT(Customer_Segment) Total
+FROM NYKAA_DATASET
+GROUP BY Customer_Segment;
+
+
+-- TOP 10 REVENUE CUSTOMER
+
+SELECT
+	TOP 10
+	Campaign_ID,
+	Revenue
+FROM NYKAA_DATASET
+ORDER BY Revenue DESC;
+
+-- TOTAL NUMBER OF IMPRESSIONS BY TARGET_AUDIENCE
+
+SELECT
+	Target_Audience,
+	SUM(Impressions) Total_Impressions
+FROM NYKAA_DATASET
+GROUP BY Target_Audience
+ORDER BY SUM(Impressions) DESC;
+
+
+--Insight: Shows how engaging your ad is.
+--Example: If CTR is low, the creative or targeting may not be resonating.
+
+-- CTR PER CAMPAIGN (CLICKS THROUGHT RATES)
+
+SELECT
+	Campaign_ID,
+	ROUND((SUM(Clicks)*100.0/SUM(Impressions)),2) CTR
+FROM NYKAA_DATASET
+GROUP BY Campaign_ID;
+
+
+--Insight: Measures how well landing pages or forms convert visitors into leads.
+--Example: High clicks but low leads → landing page needs optimization.
+
+-- LEAD CONVERSION RATE PER CAMPAIGN
+
+SELECT
+	Campaign_ID,
+	(SUM(Leads)*100.0/SUM(Clicks)) LeadRate
+FROM NYKAA_DATASET
+GROUP BY Campaign_ID;
+
+
+-- AVERAGE CTR ACROSS ALL CAMPAIGN
+
+SELECT
+	AVG((Clicks*100.0)/Impressions) AVG_CTR
+FROM NYKAA_DATASET
+
+-- AVERAGE CONVERSION RATE ACROSS ALL CAMPAIGN
+
+SELECT
+	AVG((Clicks*100.0)/Impressions) AVG_LEADRATE
+FROM NYKAA_DATASET;
+
+
+-- TOTAL NUMBER OF LANGUAGE
+
+SELECT
+	Language,
+	COUNT(Language) TOTAL_LANGUAGE
+FROM NYKAA_DATASET
+GROUP BY Language
+ORDER BY COUNT(Language) DESC;
+
+
+-- CUSTOMER SEGMENT REVENUE
+
+SELECT
+	Customer_Segment,
+	SUM(Revenue) AS Total_Revenue
+FROM NYKAA_DATASET
+GROUP BY Customer_Segment
+ORDER BY SUM(Revenue) DESC;
+
+
+-- CTR, Lead Rate, Conversion Rate, and ROI correlation
+SELECT 
+  Campaign_ID,
+  (Clicks*100.0/Impressions) AS CTR,
+  (Leads*100.0/clicks) AS LeadRate,
+  (Conversions*100.0/Leads) AS ConversionRate,
+  ROI
+FROM NYKAA_DATASET;
+
+
+-- TOTAL NUMBER OF DURATION 
+
+SELECT
+	CASE
+		WHEN Duration<=10 THEN 'SHORT (<=10 Days)'
+		WHEN Duration BETWEEN 11 AND 20 THEN 'MEDIUM (11-20 Days)'
+		ELSE 'LARGE (>20 Days)'
+		END AS Duration_Group,
+		AVG(ROI) AS Avg_ROI,
+		COUNT(*) AS Campaign_Count
+	FROM NYKAA_DATASET
+GROUP BY
+	CASE
+		WHEN Duration<=10 THEN 'SHORT (<=10 Days)'
+		WHEN Duration BETWEEN 11 AND 20 THEN 'MEDIUM (11-20 Days)'
+		ELSE 'LARGE (>20 Days)'
+		END
+ORDER BY AVG(ROI) DESC;
+	
+
+-- TOTAL NUMBER OF CHANNEL_USED
+
+SELECT
+	Channel_Used,
+	COUNT(Channel_Used) Total_channelUsed
+FROM NYKAA_DATASET
+GROUP BY Channel_Used
+ORDER BY Total_channelUsed DESC;
+
+
+-- CUSTOMER SEGMENT AVERAGE Acquisition_Cost 
+
+SELECT
+	Customer_Segment,
+	AVG(Acquisition_Cost) AVG_Acquisition_Cost
+FROM NYKAA_DATASET
+GROUP BY Customer_Segment
+ORDER BY AVG_Acquisition_Cost;
+
+
+
+
