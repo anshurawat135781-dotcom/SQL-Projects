@@ -1,1 +1,132 @@
 
+🔍 How My Queries Impact the Company
+1. 🧹 Data Cleaning (High Business Value)
+You checked NULL values, duplicates, and extra spaces
+Fixed data types (Revenue → BIGINT)
+Filled missing Acquisition Cost with average
+
+👉 Impact:
+
+Ensures accurate reporting
+Prevents wrong business decisions
+Improves data reliability for dashboards & ML models
+2. 📊 Campaign Performance Insights
+✔ Campaign Type & Target Audience
+Identifies which campaigns are most used
+
+👉 Impact:
+
+Helps marketing team focus on high-performing campaign types
+Improves budget allocation
+✔ Revenue Analysis
+Average revenue
+Top 10 campaigns by revenue
+
+👉 Impact:
+
+Finds top-performing campaigns
+Helps scale profitable strategies
+✔ Duration Analysis
+Min, Max, Avg duration
+ROI based on duration group
+
+👉 Impact:
+
+Shows optimal campaign duration
+Prevents wasting money on long/inefficient campaigns
+3. 📈 Marketing Funnel Metrics (Very Important)
+✔ CTR (Click-Through Rate)
+Measures ad engagement
+
+👉 Impact:
+
+Low CTR → improve ad creatives & targeting
+High CTR → replicate successful campaigns
+✔ Lead Conversion Rate
+Leads from clicks
+
+👉 Impact:
+
+Identifies landing page performance
+Helps optimize user journey
+✔ Conversion Rate (Leads → Customers)
+
+👉 Impact:
+
+Shows sales effectiveness
+Helps improve closing strategies
+✔ ROI Analysis
+
+👉 Impact:
+
+Directly measures profitability
+Helps decide where to invest more
+4. 👥 Customer Segmentation Insights
+✔ Revenue by Customer Segment
+
+👉 Impact:
+
+Identifies high-value customers
+Enables targeted marketing
+✔ Acquisition Cost per Segment
+
+👉 Impact:
+
+Finds expensive vs cost-effective segments
+Helps reduce customer acquisition cost (CAC)
+5. 🌍 Channel & Language Analysis
+✔ Channel Used
+
+👉 Impact:
+
+Shows best marketing platforms (Google, Instagram, etc.)
+Helps optimize multi-channel strategy
+✔ Language Analysis
+
+👉 Impact:
+
+Helps localize campaigns
+Improves regional engagement
+6. 📊 Impressions & Audience Reach
+
+👉 Impact:
+
+Shows which audience segments get maximum visibility
+Helps improve targeting strategy
+
+
+🚀 Final Business Insights
+
+Your analysis helps the company:
+
+Increase ROI
+Reduce marketing cost
+Improve customer targeting
+Optimize campaign performance
+Make data-driven decisions
+
+
+SUMMARY
+
+📊 NYKAA Marketing Campaign Analysis
+
+This project analyzes marketing campaign performance using SQL to generate actionable business insights.
+
+🔹 Key Features
+Data Cleaning (NULL handling, duplicates, formatting)
+Campaign Performance Analysis
+Customer Segmentation Insights
+Marketing Funnel Metrics (CTR, Lead Rate, Conversion Rate)
+ROI & Revenue Analysis
+Channel & Audience Optimization
+🔹 Key Insights
+Identified top-performing campaigns and revenue drivers
+Found optimal campaign duration for maximum ROI
+Analyzed customer segments for targeted marketing
+Measured CTR, Lead Rate, and Conversion efficiency
+Evaluated channel performance and audience reach
+🔹 Business Impact
+Improved marketing ROI
+Reduced customer acquisition cost
+Enabled data-driven decision making
+Optimized campaign strategies and targeting
